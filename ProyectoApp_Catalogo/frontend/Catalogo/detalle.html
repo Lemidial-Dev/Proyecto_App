@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Detalle del Producto</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#272822] text-[#f8f8f2] min-h-screen flex flex-col">
+  <script>
+    if (!localStorage.getItem('token')) {
+      window.location.href = 'login.html';
+    }
+  </script>
+  <header class="bg-[#23231f] shadow fixed top-0 left-0 w-full z-10">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-[#e6db74]">Detalle del Producto</h1>
+    </div>
+  </header>
+  <main class="flex-1 flex items-center justify-center pt-32">
+    <div id="detalle-producto" class="bg-[rgba(53,41,28,0.85)] rounded-2xl shadow-lg p-8 max-w-lg w-full border-2 border-[#3e3d32]">
+      <p class="text-center text-[#e6db74]">Cargando...</p>
+    </div>
+  </main>
+  <footer class="bg-[#23231f] border-t border-[#3e3d32] py-6 mt-auto">
+    <div class="max-w-7xl mx-auto px-6 text-center text-[#e6db74] text-sm">
+      &copy; 2025 Fake Store. Todos los derechos reservados.
+    </div>
+  </footer>
+  <script>
+    // Obtener el id de la URL
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const contenedor = document.getElementById('detalle-producto');
+
+    if (!id) {
+      contenedor.innerHTML = '<p class="text-red-500">ID de producto no especificado.</p>';
+    } else {
+      const token = localStorage.getItem('token');
+      fetch(`http://127.0.0.1:8000/api/productos/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+        .then(res => {
+          if (!res.ok) throw new Error("No se pudo cargar el producto");
+          return res.json();
+        })
+        .then(producto => {
+          contenedor.innerHTML = `
+            <h2 class="text-2xl font-bold mb-4">${producto.nombre}</h2>
+            <img src="${producto.imagen}" alt="${producto.nombre}" class="w-64 h-64 object-contain mx-auto mb-4">
+            <p class="mb-2"><strong>Descripción:</strong> ${producto.descripcion}</p>
+            <p class="mb-2"><strong>Precio:</strong> $${producto.precio}</p>
+            <p class="mb-2"><strong>Stock:</strong> ${producto.stock}</p>
+            <a href="index.html" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Volver</a>
+          `;
+        })
+        .catch(() => {
+          contenedor.innerHTML = '<p class="text-red-500">Error al cargar el producto.</p>';
+        });
+    }
+  </script>
+</body>
+</html>
