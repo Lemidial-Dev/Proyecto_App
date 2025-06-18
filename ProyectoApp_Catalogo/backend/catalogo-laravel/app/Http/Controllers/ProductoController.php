@@ -29,9 +29,8 @@ class ProductoController extends Controller
             'descripcion' => 'nullable|string',
             'precio' => 'required|numeric|min:0',
             'imagen' => 'nullable|string',
-            'stock' => 'required|integer|min:0',
+            'stock' => 'required|integer|min:0',      // Estado (ej: disponible, agotado)
             'categorias' => 'nullable|array', //IDs de categorias
-            'categorias.*' => 'exists:categorias,id', //Validar que las categorías existan
         ]);
         
         $producto = DB::transaction(function () use ($validated, $request) {
@@ -69,7 +68,7 @@ class ProductoController extends Controller
             'descripcion' => 'sometimes|required|string',
             'precio' => 'sometimes|required|numeric',
             'imagen' => 'nullable|string',
-            'stock' => 'sometimes|required|integer',
+            'stock' => 'required|integer|min:0',      // Estado (ej: disponible, agotado)
             'categorias' => 'nullable|array', //IDs de categorias
         ]);
         // Validar los datos del formulario

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-[#272822] text-[#f8f8f2] min-h-screen">
+    <div class="min-h-screen flex flex-col">
+        <!-- Navbar estilo index -->
+        <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center py-4 px-8 bg-[#23231f] text-[#e6db74] shadow-[0_2px_8px_#0006]">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center space-x-2">
+                <img src="imagenes/Fake_Store.png" alt="Logo de Fake Store" class="w-10 h-10 rounded-full border-2 border-[#e6db74] bg-[#23231f]">
+                <span class="text-2xl font-bold text-[#e6db74]">Admin</span>
+            </a>
+            <!-- Menú hamburguesa -->
+            <div class="relative">
+                <button id="menuBtn" class="focus:outline-none bg-transparent border-none">
+                    <svg class="w-8 h-8 text-[#e6db74] hover:text-[#fd971f]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+                <!-- Menú desplegable -->
+                <div id="menuDropdown" class="hidden absolute right-0 mt-2 w-48 bg-[#23231f] text-[#e6db74] rounded-xl shadow-lg py-2 z-50 border border-[#3e3d32]">
+                    <a href="crear.html" class="block px-4 py-2 hover:bg-[#fd971f] hover:text-[#23231f] transition-colors">Crear Producto</a>
+                    <button id="logoutBtn" class="block w-full text-left px-4 py-2 text-[#f92672] hover:bg-[#fd971f] hover:text-[#23231f]">Cerrar Sesión</button>
+                </div>
+            </div>
+        </nav>
+        <!-- Contenido principal -->
+        <main class="flex-1 container mx-auto py-8 pt-32">
+            <h1 class="text-3xl font-bold text-[#e6db74] mb-8 text-center">Panel de Productos</h1>
+            <!-- Contenedor de tarjetas de productos -->
+            <div id="productos" class="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-start bg-[rgba(53,41,28,0.85)] border-2 border-[#3e3d32] rounded-3xl p-10 mt-8 mb-8 shadow-[0_4px_24px_#0006]">
+                <!-- Aquí tu JS insertará las tarjetas de productos -->
+                <div class="relative flex flex-col items-center justify-start bg-[#35352b] rounded-3xl w-full max-w-xs min-h-[420px] mx-auto shadow-[0_2px_8px_#0006] transition-all cursor-pointer overflow-hidden outline-none p-8 pb-6 hover:shadow-[0_8px_32px_#fd971f55,0_2px_8px_#000a] hover:bg-[#272822] focus-within:shadow-[0_8px_32px_#fd971f55,0_2px_8px_#000a] focus-within:bg-[#272822] z-10">
+                    <img src="RUTA_IMAGEN" alt="NOMBRE_PRODUCTO" class="w-28 h-28 object-cover object-center rounded-full bg-[#232323] mb-5 shadow-[0_0_0_4px_#fd971f88] z-10" />
+                    <h3 class="text-[#fd971f] font-bold mt-2 mb-1 text-center">NOMBRE_PRODUCTO</h3>
+                    <p class="text-[#e6db74] text-lg mb-2 text-center">DESCRIPCION_PRODUCTO</p>
+                    <p class="text-[#e6db74] text-base mb-2 text-center">Stock: <span class="text-[#a6e22e] font-semibold">CANTIDAD</span></p>
+                    <p class="text-[#fd971f] font-semibold mb-2 text-center">$PRECIO</p>
+                    <div class="flex gap-2 mt-auto mb-2">
+                        <button class="btn-editar" data-id="123">Editar</button>
+                        <button class="btn-eliminar" data-id="123">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="bg-[#23231f] text-[#e6db74] py-6 text-center border-t-2 border-[#3e3d32] mt-8">
+            &copy; 2025 Fake Store. Todos los derechos reservados.
+        </footer>
+    </div>
+    <!-- Script menú hamburguesa y cerrar sesión -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const menuBtn = document.getElementById("menuBtn");
+        const menuDropdown = document.getElementById("menuDropdown");
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        // Menú hamburguesa
+        if (menuBtn && menuDropdown) {
+            menuBtn.addEventListener("click", function(event) {
+                event.stopPropagation();
+                menuDropdown.classList.toggle("hidden");
+            });
+
+            // Ocultar menú al hacer click fuera
+            document.addEventListener("click", function(event) {
+                if (!menuBtn.contains(event.target) && !menuDropdown.contains(event.target)) {
+                    menuDropdown.classList.add("hidden");
+                }
+            });
+        }
+
+        // Botón cerrar sesión
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", () => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("rol");
+                window.location.href = "login.html";
+            });
+        }
+
+        // Redirección si no hay token
+        if(!localStorage.getItem('token')) {
+            window.location.href = 'login.html';
+        }
+    });
+    </script>
+    <script src="admin.js"></script>
+</body>
+</html>

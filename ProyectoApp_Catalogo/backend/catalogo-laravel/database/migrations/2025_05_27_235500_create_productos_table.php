@@ -18,8 +18,7 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->decimal('precio', 10, 2); // Precio del producto
             $table->string('imagen')->nullable(); // Ruta de la imagen del producto
-            $table->string('stock')->default('disponible'); // Estado del stock: disponible, agotado, preorden
-            $table->integer('cantidad')->default(0); // Cantidad disponible en stock
+            $table->integer('stock')->default(0); // Estado del stock: disponible, agotado, preorden
 
             $table->timestamps();
         });

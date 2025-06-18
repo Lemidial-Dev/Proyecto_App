@@ -10,7 +10,7 @@ class Producto extends Model
         'nombre',
         'descripcion',
         'precio',
-        'stock',
+        'stock',      // Estado (string)
         'imagen',
     ];
 

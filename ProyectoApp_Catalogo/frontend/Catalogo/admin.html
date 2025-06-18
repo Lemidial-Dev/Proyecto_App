@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#272822] flex flex-col min-h-screen">
+  <!-- Header fijo -->
+  <!-- CORRECCIÓN 1: Se mantiene la estructura flex con justify-between para alinear los elementos -->
+  <header class="bg-[#23231f] shadow w-full fixed top-0 left-0 z-10">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between w-full">
+      <h1 class="text-[#e6db74] text-2xl font-bold">Panel de Administración</h1>
+      <!-- Este div agrupa los botones para que justify-between los empuje juntos a la derecha -->
+      <div class="flex gap-4">
+        <button id="agregar-producto-btn" class="btn-abi">Agregar producto</button>
+        <button id="logout-btn" class="btn-abi bg-red-600 hover:bg-red-700">Cerrar sesión</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 pt-32 max-w-7xl mx-auto px-4 w-full">
+    <h2 class="text-xl text-[#e6db74] mb-6 mt-2">Gestión de Productos</h2>
+    <div id="productos-admin" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Aquí se insertarán los productos dinámicamente -->
+    </div>
+  </main>
+
+  <!-- El resto de tu código (Footer y Modal) sigue igual -->
+  <footer class="bg-[#23231f] border-t border-[#3e3d32] py-6 mt-auto">
+    <div class="max-w-7xl mx-auto px-6 text-center text-[#e6db74] text-sm">
+      © 2025 Fake Store. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <div id="modal-producto" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <!-- ... Contenido del modal ... -->
+  </div>
+
+  <script src="admin.js"></script>
+  <script>
+    if (!localStorage.getItem('token')) {
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>

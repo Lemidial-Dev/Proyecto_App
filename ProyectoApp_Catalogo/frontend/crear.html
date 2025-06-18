@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Producto</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#272822] min-h-screen flex items-center justify-center">
+    <div class="section-box w-full max-w-lg">
+        <h1 class="text-3xl font-bold mb-8 text-[#e6db74] text-center">Crear Producto</h1>
+        <form id="productoForm" class="space-y-5">
+            <div>
+                <label for="nombre" class="block font-bold mb-1 text-[#e6db74]">Nombre del Producto</label>
+                <input type="text" id="nombre" class="bg-[#3e3d32] text-[#f8f8f2] border border-[#75715e] rounded-lg px-4 py-2 w-full focus:outline-[#fd971f] focus:bg-[#272822] focus:text-[#f8f8f2]" required>
+            </div>
+            <div>
+                <label for="descripcion" class="block font-bold mb-1 text-[#e6db74]">Descripción del Producto</label>
+                <textarea id="descripcion" class="bg-[#3e3d32] text-[#f8f8f2] border border-[#75715e] rounded-lg px-4 py-2 w-full focus:outline-[#fd971f] focus:bg-[#272822] focus:text-[#f8f8f2]"></textarea>
+            </div>
+            <div>
+                <label for="precio" class="block font-bold mb-1 text-[#e6db74]">Precio del Producto</label>
+                <input type="number" id="precio" class="bg-[#3e3d32] text-[#f8f8f2] border border-[#75715e] rounded-lg px-4 py-2 w-full focus:outline-[#fd971f] focus:bg-[#272822] focus:text-[#f8f8f2]" required>
+            </div>
+            <div>
+                <label for="stock" class="block font-bold mb-1 text-[#e6db74]">Stock</label>
+                <input type="number" id="stock" class="bg-[#3e3d32] text-[#f8f8f2] border border-[#75715e] rounded-lg px-4 py-2 w-full focus:outline-[#fd971f] focus:bg-[#272822] focus:text-[#f8f8f2]" required>
+            </div>
+            <div>
+                <label for="imagen" class="block font-bold mb-1 text-[#e6db74]">Imagen</label>
+                <input type="file" id="imagen" accept="image/*" class="bg-[#3e3d32] text-[#f8f8f2] border border-[#75715e] rounded-lg px-4 py-2 w-full focus:outline-[#fd971f]">
+            </div>
+            <div class="flex justify-between items-center">
+                <button type="submit" class="btn-abi">Guardar</button>
+                <a href="admin.html" class="text-[#fd971f] hover:text-[#e6db74] font-semibold">Cancelar</a>
+            </div>
+            <p id="mensaje" class="mt-4 text-center"></p>
+        </form>
+    </div>
+    <script type="module" src="crear.js"></script>
+</body>
+</html>

@@ -1,57 +1,76 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contacto - Fake Store</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8">
+  <title>Contacto | Fake Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <style>
-    #map { width: 100%; height: 400px; }
-  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
-  <header class="bg-white shadow sticky top-0 z-10">
+<body class="bg-[#272822] flex flex-col min-h-screen">
+  <header class="bg-[#23231f] shadow w-full">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-blue-600">Contacto</h1>
-      <a href="index.html" class="btn-abi font-bold categoria-btn px-8 py-2 transition-colors">
-        Volver
-      </a>
+      <a href="index.html" class="text-[#e6db74] text-2xl font-bold">Fake Store</a>
+      <button id="login-btn" class="btn-abi">Iniciar sesión</button>
     </div>
   </header>
-  <main class="flex-1 flex flex-col items-center justify-center py-10">
-    <h2 class="text-3xl font-bold mb-4">Ubicación de la Tienda</h2>
-    <div class="rounded-2xl shadow-lg mb-6 p-4 max-w-2xl w-full"
-         style="background: rgba(53,41,28,0.85); border: 2px solid #3e3d32;">
-      <div id="map" style="width:100%;height:400px;border-radius:1rem;"></div>
-    </div>
+
+  <main class="flex-1 flex items-center justify-center pt-12 pb-8">
+    <form id="contactoForm" class="bg-[#3e3d32] rounded-lg shadow-lg p-8 w-full max-w-md flex flex-col gap-4">
+      <h2 class="text-[#e6db74] text-2xl font-bold mb-4 text-center">Contáctanos</h2>
+      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required class="w-full rounded px-3 py-2 bg-[#23231f] text-[#f8f8f2] border border-[#75715e] focus:outline-none focus:ring-2 focus:ring-[#fd971f]">
+      <input type="email" id="email" name="email" placeholder="Tu correo" required class="w-full rounded px-3 py-2 bg-[#23231f] text-[#f8f8f2] border border-[#75715e] focus:outline-none focus:ring-2 focus:ring-[#fd971f]">
+      <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje" required class="w-full rounded px-3 py-2 bg-[#23231f] text-[#f8f8f2] border border-[#75715e] focus:outline-none focus:ring-2 focus:ring-[#fd971f]"></textarea>
+      <button type="submit" class="btn-abi bg-[#fd971f] hover:bg-[#e6db74] text-[#272822] font-bold py-2 rounded transition-colors">Enviar</button>
+      <p id="mensaje-estado" class="text-center text-sm mt-2"></p>
+    </form>
   </main>
-  <footer class="bg-white border-t py-6 mt-auto">
-    <div class="max-w-7xl mx-auto px-6 text-center text-gray-400 text-sm">
+
+  <footer class="bg-[#23231f] border-t border-[#3e3d32] py-6 mt-auto">
+    <div class="max-w-7xl mx-auto px-6 text-center text-[#e6db74] text-sm">
       &copy; 2025 Fake Store. Todos los derechos reservados.
     </div>
   </footer>
+
   <script>
-    function initMap() {
-      const ubicacion = { lat: -0.1806532, lng: -78.4678382 }; // Quito, Ecuador
-      const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 14,
-        center: ubicacion,
-      });
-      new google.maps.Marker({
-        position: ubicacion,
-        map,
-        title: "Tienda Principal",
-        label: "🏬"
-      });
+    // Mostrar/ocultar botón de login según token
+    const loginBtn = document.getElementById('login-btn');
+    if (loginBtn) {
+      if (localStorage.getItem('token')) {
+        loginBtn.style.display = 'none';
+      } else {
+        loginBtn.style.display = 'block';
+        loginBtn.addEventListener('click', () => {
+          window.location.href = 'login.html';
+        });
+      }
     }
-  </script>
-  <!-- API Key genérica SOLO para pruebas -->
-  <script src="https://maps.googleapis.com/maps/api/js?AIzaSyD-7tWQ5w3b1Q6Qw4wQw4wQw4wQw4wQw4w&callback=initMap" async defer></script>
-  <script>
-    if (!localStorage.getItem('token')) {
-      window.location.href = 'login.html';
-    }
+
+    // Envío del formulario de contacto
+    document.getElementById('contactoForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value;
+      const email = document.getElementById('email').value;
+      const mensaje = document.getElementById('mensaje').value;
+      const estado = document.getElementById('mensaje-estado');
+      estado.textContent = "Enviando...";
+
+      try {
+        const res = await fetch('http://127.0.0.1:8000/api/contacto', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ nombre, email, mensaje })
+        });
+        if (!res.ok) throw new Error('Error al enviar el mensaje');
+        estado.textContent = "¡Mensaje enviado correctamente!";
+        estado.className = "text-green-500 text-center mt-2";
+        this.reset();
+      } catch (err) {
+        estado.textContent = "Hubo un error al enviar tu mensaje.";
+        estado.className = "text-red-500 text-center mt-2";
+      }
+    });
   </script>
 </body>
 </html>

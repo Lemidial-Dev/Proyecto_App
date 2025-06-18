@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Store</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="icon" href="imagenes/Fake_Store.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#272822] text-[#f8f8f2] min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center py-4 px-8 bg-[#23231f] text-[#e6db74] shadow-[0_2px_8px_#0006]">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center space-x-2">
+            <img src="imagenes/Fake_Store.png" alt="Logo de Fake Store" class="w-8 h-8 rounded-full border-2 border-[#e6db74] bg-[#23231f]">
+            <span class="text-2xl font-bold text-[#e6db74]">Fake Store</span>
+        </a>
+    
+        <!-- Botón hamburguesa -->
+        <div class="relative">
+            <button id="menuBtn" class="focus:outline-none bg-transparent border-none">
+                <svg class="w-8 h-8 text-[#e6db74] hover:text-[#fd971f]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            <!-- Menú desplegable -->
+            <div id="menuDropdown" class="hidden absolute right-0 mt-2 w-48 bg-[#23231f] text-[#e6db74] rounded-xl shadow-lg py-2 z-50 border border-[#3e3d32]">
+                <a href="index.html" class="block px-4 py-2 hover:bg-[#fd971f] hover:text-[#23231f] transition-colors">Inicio</a>
+                <a href="contacto.html" class="block px-4 py-2 hover:bg-[#fd971f] hover:text-[#23231f] transition-colors">Contacto</a>
+                <button id="logoutBtn" class="block w-full text-left px-4 py-2 text-[#f92672] hover:bg-[#fd971f] hover:text-[#23231f]">Cerrar Sesión</button>
+            </div>
+        </div>
+    </nav>
+
+    <br><br><br>
+    <!-- Barra de búsqueda y categorías -->
+    <section class="max-w-7xl mx-auto px-6 mb-6">
+        <div class="flex flex-col gap-4 items-center">
+            <h1 class="text-4xl font-bold text-center text-[#e6db74]">Catálogo de Productos</h1>
+            <p class="text-lg text-center text-[#e6db74]">Explora nuestra selección de productos disponibles</p>
+            <input
+                id="busqueda"
+                type="text"
+                placeholder="Buscar productos..."
+                class="w-full max-w-md px-4 py-2 bg-[#3e3d32] text-[#f8f8f2] border border-[#75715e] rounded-lg focus:outline-[#fd971f] focus:bg-[#272822] focus:text-[#f8f8f2] transition"
+            />
+            <div id="categorias" class="flex flex-wrap gap-3 justify-center">
+                <!-- Los botones se generarán dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contenedor de Productos -->
+    <main class="max-w-7xl mx-auto px-6 pb-16 flex-1">
+        <div
+            id="productos"
+            class="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center items-start bg-[rgba(53,41,28,0.85)] border-2 border-[#3e3d32] rounded-3xl p-10 mt-8 mb-8 shadow-[0_4px_24px_#0006]">
+            <!-- Productos se cargaran aqui dinamicamente -->
+        </div>
+    </main>
+
+    <!-- Script cerrar Sesion -->
+    <script>
+        // Mostrar botón solo si hay token
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            if (localStorage.getItem('token')) {
+                logoutBtn.classList.remove('hidden');
+            }
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            });
+        }
+        if(!localStorage.getItem('token')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-[#23231f] text-[#e6db74] py-6 text-center border-t-2 border-[#3e3d32] mt-8">
+        &copy; 2025 Fake Store. Todos los derechos reservados.
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>

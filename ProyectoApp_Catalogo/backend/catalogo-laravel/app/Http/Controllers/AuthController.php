@@ -10,7 +10,18 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    //
+    //Login
+    public function index()
+    {
+        // Verifica que el usuario sea admin
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+        // Retorna todos los usuarios
+        return User::all();
+    }
+
+    //Registro
     public function register(Request $request)
     {
         // Validar los datos de entrada
@@ -63,6 +74,12 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         // Retornar una respuesta exitosa
         return response()->json(['message' => 'Sesión cerrada correctamente'], 200);
+    }
+
+    //Obtener perfil
+    public function me(Request $request)
+    {
+        return response()->json($request->user());
     }
 }
 

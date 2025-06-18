@@ -1,66 +1,76 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Detalle del Producto</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8">
+  <title>Detalle de Producto | Fake Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-[#272822] text-[#f8f8f2] min-h-screen flex flex-col">
-  <script>
-    if (!localStorage.getItem('token')) {
-      window.location.href = 'login.html';
-    }
-  </script>
-  <header class="bg-[#23231f] shadow fixed top-0 left-0 w-full z-10">
+<body class="bg-[#272822] flex flex-col min-h-screen">
+  <header class="bg-[#23231f] shadow w-full">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-[#e6db74]">Detalle del Producto</h1>
+      <a href="index.html" class="text-[#e6db74] text-2xl font-bold">Fake Store</a>
+      <button id="login-btn" class="btn-abi">Iniciar sesión</button>
     </div>
   </header>
-  <main class="flex-1 flex items-center justify-center pt-32">
-    <div id="detalle-producto" class="bg-[rgba(53,41,28,0.85)] rounded-2xl shadow-lg p-8 max-w-lg w-full border-2 border-[#3e3d32]">
-      <p class="text-center text-[#e6db74]">Cargando...</p>
+
+  <main class="flex-1 flex items-center justify-center pt-12 pb-8">
+    <div id="detalle-producto" class="bg-[#3e3d32] rounded-lg shadow-lg p-8 w-full max-w-lg flex flex-col items-center gap-4">
+      <!-- Aquí se cargará el detalle del producto -->
     </div>
   </main>
+
   <footer class="bg-[#23231f] border-t border-[#3e3d32] py-6 mt-auto">
     <div class="max-w-7xl mx-auto px-6 text-center text-[#e6db74] text-sm">
       &copy; 2025 Fake Store. Todos los derechos reservados.
     </div>
   </footer>
-  <script>
-    // Obtener el id de la URL
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    const contenedor = document.getElementById('detalle-producto');
 
-    if (!id) {
-      contenedor.innerHTML = '<p class="text-red-500">ID de producto no especificado.</p>';
-    } else {
-      const token = localStorage.getItem('token');
-      fetch(`http://127.0.0.1:8000/api/productos/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-        .then(res => {
-          if (!res.ok) throw new Error("No se pudo cargar el producto");
-          return res.json();
-        })
-        .then(producto => {
-          contenedor.innerHTML = `
-            <h2 class="text-2xl font-bold mb-4">${producto.nombre}</h2>
-            <img src="${producto.imagen}" alt="${producto.nombre}" class="w-64 h-64 object-contain mx-auto mb-4">
-            <p class="mb-2"><strong>Descripción:</strong> ${producto.descripcion}</p>
-            <p class="mb-2"><strong>Precio:</strong> $${producto.precio}</p>
-            <p class="mb-2"><strong>Stock:</strong> ${producto.stock}</p>
-            <a href="index.html" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Volver</a>
-          `;
-        })
-        .catch(() => {
-          contenedor.innerHTML = '<p class="text-red-500">Error al cargar el producto.</p>';
+  <script>
+    // Mostrar/ocultar botón de login según token
+    const loginBtn = document.getElementById('login-btn');
+    if (loginBtn) {
+      if (localStorage.getItem('token')) {
+        loginBtn.style.display = 'none';
+      } else {
+        loginBtn.style.display = 'block';
+        loginBtn.addEventListener('click', () => {
+          window.location.href = 'login.html';
         });
+      }
     }
+
+    // Obtener ID del producto de la URL
+    function getIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    // Cargar detalle del producto desde tu backend
+    async function cargarDetalleProducto() {
+      const id = getIdFromUrl();
+      const contenedor = document.getElementById('detalle-producto');
+      if (!id) {
+        contenedor.innerHTML = '<p class="text-red-500">Producto no encontrado.</p>';
+        return;
+      }
+      try {
+        const res = await fetch(`http://127.0.0.1:8000/api/productos/${id}`);
+        if (!res.ok) throw new Error('No se pudo cargar el producto');
+        const producto = await res.json();
+        contenedor.innerHTML = `
+          <img src="${producto.imagen}" alt="${producto.nombre}" class="w-full h-64 object-contain bg-[#232323] rounded-lg mb-4 p-4" />
+          <h2 class="text-2xl font-bold text-[#e6db74] mb-2 text-center">${producto.nombre}</h2>
+          <p class="text-[#f8f8f2] text-base mb-2 text-center">${producto.descripcion}</p>
+          <span class="text-[#fd971f] font-bold text-xl mb-4 block text-center">$${producto.precio}</span>
+          <a href="index.html" class="btn-abi mt-2">Volver al catálogo</a>
+        `;
+      } catch (err) {
+        contenedor.innerHTML = '<p class="text-red-500">No se pudo cargar el producto.</p>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', cargarDetalleProducto);
   </script>
 </body>
 </html>

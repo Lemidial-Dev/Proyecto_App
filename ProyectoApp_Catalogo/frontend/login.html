@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body class="bg-[#272822] text-[#f8f8f2] min-h-screen flex items-center justify-center pt-20">
+    <form
+      id="loginForm"
+      class="bg-[rgba(53,41,28,0.85)] border-2 border-[#3e3d32] rounded-3xl shadow-[0_4px_24px_#0006] p-10 w-full max-w-md flex flex-col section-box"
+    >
+      <h2 class="text-3xl font-bold mb-6 text-center text-[#e6db74]">Iniciar Sesión</h2>
+ 
+      <label for="username" class="text-[#e6db74] font-bold mb-2">Usuario</label>
+      <input
+        type="text"
+        id="username"
+        required
+        class="bg-[#3e3d32] text-[#f8f8f2] border border-[#75715e] rounded-lg px-4 py-2 mb-4 focus:outline-[#fd971f] focus:bg-[#272822] focus:text-[#f8f8f2] transition"
+      />
+ 
+      <label for="password" class="text-[#e6db74] font-bold mb-2">Contraseña</label>
+      <input
+        type="password"
+        id="password"
+        required
+        class="bg-[#3e3d32] text-[#f8f8f2] border border-[#75715e] rounded-lg px-4 py-2 mb-6 focus:outline-[#fd971f] focus:bg-[#272822] focus:text-[#f8f8f2] transition"
+      />
+ 
+      <button
+        type="submit"
+        class="btn-abi bg-[rgba(53,41,28,0.92)] text-[#e6db74] border-2 border-[#e6db74] rounded-full px-6 py-2 font-semibold text-base shadow hover:bg-[#e6db74] hover:text-[#23231f] hover:border-[#fd971f] hover:shadow-[0_4px_24px_#fd971faa,0_2px_8px_#000a] transition-all"
+      >
+        Iniciar sesión
+      </button>
+
+      <p id="mensaje" class="text-center mt-4 text-sm"></p>
+    </form>
+
+    <footer class="bg-[#23231f] text-[#e6db74] py-6 text-center border-t-2 border-[#3e3d32] mt-8 w-full absolute bottom-0 left-0">
+      © 2025 Fake Store. Todos los derechos reservados.
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
